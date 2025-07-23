@@ -1,24 +1,43 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
     <title>Nuevo Vehículo</title>
 </head>
 <body>
-<h1>Agregar Nuevo Vehículo</h1>
-<form th:action="@{/vehiculos/guardar}" method="post" th:object="${vehiculo}">
-    Patente: <input type="text" th:field="*{patente}" required><br>
-    Marca: <input type="text" th:field="*{marca}" required><br>
-    Modelo: <input type="text" th:field="*{modelo}" required><br>
-    Kilómetros actuales: <input type="number" th:field="*{kilometros}" required><br>
-    Duración aceite (km): <input type="number" th:field="*{duracionAceite}" required><br>
-    Duración filtros (km): <input type="number" th:field="*{duracionFiltros}" required><br>
-    Correo electrónico: <input type="email" th:field="*{email}" required><br>
+<h1>Nuevo Vehículo</h1>
+
+<form th:action="@{/vehiculos/guardar}" th:object="${vehiculo}" method="post">
+    <input type="hidden" th:field="*{id}" />
+
+    <label for="patente">Patente:</label>
+    <input type="text" th:field="*{patente}" required /><br/>
+
+    <label for="marca">Marca:</label>
+    <input type="text" th:field="*{marca}" required /><br/>
+
+    <label for="modelo">Modelo:</label>
+    <input type="text" th:field="*{modelo}" required /><br/>
+
+    <label for="kilometros">Kilómetros actuales:</label>
+    <input type="number" th:field="*{kilometros}" min="0" required /><br/>
+
+    <label for="duracionAceite">Duración del aceite (km):</label>
+    <input type="number" th:field="*{duracionAceite}" min="0" required /><br/>
+
+    <label for="duracionFiltros">Duración de los filtros (km):</label>
+    <input type="number" th:field="*{duracionFiltros}" min="0" required /><br/>
+
+    <label><input type="checkbox" th:field="*{filtroAceiteCambiado}" /> ¿Cambio de filtro de aceite?</label><br/>
+    <label><input type="checkbox" th:field="*{filtroAireCambiado}" /> ¿Cambio de filtro de aire?</label><br/>
+    <label><input type="checkbox" th:field="*{filtroCombustibleCambiado}" /> ¿Cambio de filtro de combustible?</label><br/>
+
+
+    <label for="email">Correo electrónico:</label>
+    <input type="email" th:field="*{email}" /><br/>
+
     <button type="submit">Guardar</button>
 </form>
 
-
-<br>
 <a th:href="@{/vehiculos}">← Volver al listado</a>
 </body>
 </html>

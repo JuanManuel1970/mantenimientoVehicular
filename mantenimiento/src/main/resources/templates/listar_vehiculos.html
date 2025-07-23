@@ -17,10 +17,7 @@
         <th>Kilómetros</th>
         <th>Duración aceite</th>
         <th>Duración filtros</th>
-        <th>Filtro Aire</th>
-        <th>Filtro Comb.</th>
-        <th>Filtro Aceite</th>
-
+        <th>Filtros cambiados</th>
         <th>Email</th>
         <th>Próximo servicio (Km)</th>
         <th>Acciones</th>
@@ -35,9 +32,7 @@
         <td th:text="${vehiculo.kilometros}"></td>
         <td th:text="${vehiculo.duracionAceite}"></td>
         <td th:text="${vehiculo.duracionFiltros}"></td>
-        <td th:text="${vehiculo.filtroAireCambiado ? '✔' : 'X'}"></td>
-        <td th:text="${vehiculo.filtroCombustibleCambiado ? '✔' : 'X'}"></td>
-        <td th:text="${vehiculo.filtroAceiteCambiado ? '✔' : 'X'}"></td>
+
         <td th:text="${vehiculo.email}"></td>
         <td th:text="${vehiculo.proximoServicioKm}"></td>
         <td>
@@ -47,5 +42,9 @@
     </tr>
     </tbody>
 </table>
+</body>
+</html>
+
+
 </body>
 </html>

@@ -1,22 +1,43 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Editar Vehículo</title>
+    <title th:text="${vehiculo.id != null} ? 'Editar Vehículo' : 'Agregar Vehículo'">Formulario Vehículo</title>
 </head>
 <body>
-<h1>Editar Vehículo</h1>
+<h1 th:text="${vehiculo.id != null} ? 'Editar Vehículo' : 'Agregar Vehículo'">Formulario Vehículo</h1>
+
 <form th:action="@{/vehiculos/guardar}" th:object="${vehiculo}" method="post">
     <input type="hidden" th:field="*{id}" />
-    <label>Patente:</label>
-    <input type="text" th:field="*{patente}" /><br/>
-    <label>Marca:</label>
-    <input type="text" th:field="*{marca}" /><br/>
-    <label>Modelo:</label>
-    <input type="text" th:field="*{modelo}" /><br/>
-    <label>Kilómetros:</label>
-    <input type="number" th:field="*{kilometros}" /><br/>
-    <button type="submit">Guardar Cambios</button>
+
+    <label for="patente">Patente:</label>
+    <input type="text" th:field="*{patente}" required /><br/>
+
+    <label for="marca">Marca:</label>
+    <input type="text" th:field="*{marca}" required /><br/>
+
+    <label for="modelo">Modelo:</label>
+    <input type="text" th:field="*{modelo}" required /><br/>
+
+    <label for="kilometros">Kilómetros actuales:</label>
+    <input type="number" th:field="*{kilometros}" min="0" required /><br/>
+
+    <label for="duracionAceite">Duración del aceite (km):</label>
+    <input type="number" th:field="*{duracionAceite}" min="0" required /><br/>
+
+
+    <label><input type="checkbox" th:field="*{filtroAceiteCambiado}" /> ¿Cambio de filtro de aceite?</label><br/>
+    <label><input type="checkbox" th:field="*{filtroAireCambiado}" /> ¿Cambio de filtro de aire?</label><br/>
+    <label><input type="checkbox" th:field="*{filtroCombustibleCambiado}" /> ¿Cambio de filtro de combustible?</label><br/>
+
+
+
+
+    <label for="email">Correo electrónico:</label>
+    <input type="email" th:field="*{email}" /><br/>
+
+    <button type="submit" th:text="${vehiculo.id != null} ? 'Guardar Cambios' : 'Guardar'">Guardar</button>
 </form>
-<a href="/vehiculos">Cancelar</a>
+
+<a th:href="@{/vehiculos}">← Volver al listado</a>
 </body>
 </html>

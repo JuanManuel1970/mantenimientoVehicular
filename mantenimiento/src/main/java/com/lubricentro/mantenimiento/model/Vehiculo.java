@@ -13,18 +13,24 @@ public class Vehiculo {
     private String marca;
     private String modelo;
     private int kilometros;
-    private int duracion_aceite;
-    private int duracion_filtros;
+    private int duracionAceite;
+    private int duracionFiltros;
+    private boolean filtroAireCambiado;
+    private boolean filtroCombustibleCambiado;
+    private boolean filtroAceiteCambiado;
     private String email;
     private int proximoServicioKm;
+
 
     @PrePersist
     @PreUpdate
     public void calcularProximoServicio() {
-        this.proximoServicioKm = this.kilometros + Math.min(duracion_aceite, duracion_filtros);
-
-
+        this.proximoServicioKm = this.kilometros + this.duracionAceite;
     }
+
+
+
+    // === Getters y Setters ===
 
     public Long getId() {
         return id;
@@ -67,19 +73,43 @@ public class Vehiculo {
     }
 
     public int getDuracionAceite() {
-        return duracion_aceite;
+        return duracionAceite;
     }
 
     public void setDuracionAceite(int duracionAceite) {
-        this.duracion_aceite = duracionAceite;
+        this.duracionAceite = duracionAceite;
     }
 
     public int getDuracionFiltros() {
-        return duracion_filtros;
+        return duracionFiltros;
     }
 
     public void setDuracionFiltros(int duracionFiltros) {
-        this.duracion_filtros = duracionFiltros;
+        this.duracionFiltros = duracionFiltros;
+    }
+
+    public boolean isFiltroAireCambiado() {
+        return filtroAireCambiado;
+    }
+
+    public void setFiltroAireCambiado(boolean filtroAireCambiado) {
+        this.filtroAireCambiado = filtroAireCambiado;
+    }
+
+    public boolean isFiltroCombustibleCambiado() {
+        return filtroCombustibleCambiado;
+    }
+
+    public void setFiltroCombustibleCambiado(boolean filtroCombustibleCambiado) {
+        this.filtroCombustibleCambiado = filtroCombustibleCambiado;
+    }
+
+    public boolean isFiltroAceiteCambiado() {
+        return filtroAceiteCambiado;
+    }
+
+    public void setFiltroAceiteCambiado(boolean filtroAceiteCambiado) {
+        this.filtroAceiteCambiado = filtroAceiteCambiado;
     }
 
     public String getEmail() {
@@ -98,4 +128,3 @@ public class Vehiculo {
         this.proximoServicioKm = proximoServicioKm;
     }
 }
-
