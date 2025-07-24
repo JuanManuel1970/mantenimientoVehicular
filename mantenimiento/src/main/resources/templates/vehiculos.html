@@ -4,45 +4,53 @@
     <title>Vehículos</title>
 </head>
 <body>
-<h1>Vehículos registrados</h1>
+<h1>Vehículos Registrados</h1>
+
 <a href="/vehiculos/nuevo">➕ Agregar Vehículo</a>
 <br><br>
+
 <table border="1">
     <thead>
     <tr>
-        <th>ID</th>
         <th>Patente</th>
         <th>Marca</th>
         <th>Modelo</th>
-        <th>Kilómetros</th>
+        <th>Kilómetros actuales</th>
         <th>Duración aceite</th>
-        <th>Duración filtros</th>
-        <th>Filtro Aire</th>
-        <th>Filtro Comb.</th>
-        <th>Filtro Aceite</th>
-
+        <th>Km/mes</th>
+        <th>Último cambio</th>
+        <th>Próximo cambio (fecha)</th>
+        <th>Próximo cambio (km)</th>
         <th>Email</th>
-        <th>Próximo servicio (Km)</th>
+        <th>Filtro aceite</th>
+        <th>Filtro aire</th>
+        <th>Filtro combustible</th>
         <th>Acciones</th>
     </tr>
     </thead>
     <tbody>
     <tr th:each="vehiculo : ${vehiculos}">
-        <td th:text="${vehiculo.id}"></td>
         <td th:text="${vehiculo.patente}"></td>
         <td th:text="${vehiculo.marca}"></td>
         <td th:text="${vehiculo.modelo}"></td>
         <td th:text="${vehiculo.kilometros}"></td>
         <td th:text="${vehiculo.duracionAceite}"></td>
-        <td th:text="${vehiculo.duracionFiltros}"></td>
-        <td th:text="${vehiculo.filtroAireCambiado ? '✔' : 'X'}"></td>
-        <td th:text="${vehiculo.filtroCombustibleCambiado ? '✔' : 'X'}"></td>
-        <td th:text="${vehiculo.filtroAceiteCambiado ? '✔' : 'X'}"></td>
-        <td th:text="${vehiculo.email}"></td>
+        <td th:text="${vehiculo.kmPorMes}"></td>
+        <td th:text="${vehiculo.fechaUltimoCambio}"></td>
+        <td th:text="${vehiculo.fechaProximoCambio}"></td>
         <td th:text="${vehiculo.proximoServicioKm}"></td>
+        <td th:text="${vehiculo.email}"></td>
+        <td th:text="${vehiculo.filtroAceiteCambiado ? 'Sí' : 'No'}"></td>
+        <td th:text="${vehiculo.filtroAireCambiado ? 'Sí' : 'No'}"></td>
+        <td th:text="${vehiculo.filtroCombustibleCambiado ? 'Sí' : 'No'}"></td>
         <td>
             <a th:href="@{'/vehiculos/editar/' + ${vehiculo.id}}">Editar</a> |
             <a th:href="@{'/vehiculos/eliminar/' + ${vehiculo.id}}" onclick="return confirm('¿Eliminar este vehículo?')">Eliminar</a>
+            <br/>
+               <form th:action="@{'/vehiculos/enviarCorreo/' + ${vehiculo.id}}" method="post">
+                <button type="submit">📧 Enviar recordatorio</button>
+            </form>
+
         </td>
     </tr>
     </tbody>

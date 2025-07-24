@@ -70,6 +70,14 @@
 			<version>3.42.0.0</version>
 		</dependency>
 
+
+		<dependency>
+			<groupId>jakarta.annotation</groupId>
+			<artifactId>jakarta.annotation-api</artifactId>
+			<version>2.1.1</version>
+		</dependency>
+
+
 	</dependencies>
 
 	<build>
@@ -80,5 +88,6 @@
 			</plugin>
 		</plugins>
 	</build>
+
 
 </project>

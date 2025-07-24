@@ -1,43 +1,55 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+    <meta charset="UTF-8">
     <title>Nuevo Vehículo</title>
 </head>
 <body>
-<h1>Nuevo Vehículo</h1>
 
-<form th:action="@{/vehiculos/guardar}" th:object="${vehiculo}" method="post">
+<h1>Registrar Nuevo Vehículo</h1>
+
+<form th:action="@{/vehiculos}" th:object="${vehiculo}" method="post">
+
     <input type="hidden" th:field="*{id}" />
 
     <label for="patente">Patente:</label>
-    <input type="text" th:field="*{patente}" required /><br/>
+    <input type="text" id="patente" th:field="*{patente}" required /><br><br>
 
     <label for="marca">Marca:</label>
-    <input type="text" th:field="*{marca}" required /><br/>
+    <input type="text" id="marca" th:field="*{marca}" required /><br><br>
 
     <label for="modelo">Modelo:</label>
-    <input type="text" th:field="*{modelo}" required /><br/>
+    <input type="text" id="modelo" th:field="*{modelo}" required /><br><br>
 
     <label for="kilometros">Kilómetros actuales:</label>
-    <input type="number" th:field="*{kilometros}" min="0" required /><br/>
+    <input type="number" id="kilometros" th:field="*{kilometros}" required /><br><br>
 
-    <label for="duracionAceite">Duración del aceite (km):</label>
-    <input type="number" th:field="*{duracionAceite}" min="0" required /><br/>
-
-    <label for="duracionFiltros">Duración de los filtros (km):</label>
-    <input type="number" th:field="*{duracionFiltros}" min="0" required /><br/>
-
-    <label><input type="checkbox" th:field="*{filtroAceiteCambiado}" /> ¿Cambio de filtro de aceite?</label><br/>
-    <label><input type="checkbox" th:field="*{filtroAireCambiado}" /> ¿Cambio de filtro de aire?</label><br/>
-    <label><input type="checkbox" th:field="*{filtroCombustibleCambiado}" /> ¿Cambio de filtro de combustible?</label><br/>
+    <label for="duracionAceite">Duración del aceite (en km):</label>
+    <input type="number" id="duracionAceite" th:field="*{duracionAceite}" required /><br><br>
 
 
-    <label for="email">Correo electrónico:</label>
-    <input type="email" th:field="*{email}" /><br/>
+    <label for="kmPorMes">Km recorridos por mes (estimado):</label>
+    <input type="number" id="kmPorMes" th:field="*{kmPorMes}" required /><br><br>
 
-    <button type="submit">Guardar</button>
+    <input type="date" id="fechaUltimoCambio"
+           th:field="*{fechaUltimoCambio}"
+           th:value="${#temporals.format(vehiculo.fechaUltimoCambio, 'yyyy-MM-dd')}" required />
+
+
+    <label for="email">Correo de contacto:</label>
+    <input type="email" id="email" th:field="*{email}" required /><br><br>
+
+    <label for="filtroAceiteCambiado">Filtro de aceite cambiado:</label>
+    <input type="checkbox" id="filtroAceiteCambiado" th:field="*{filtroAceiteCambiado}" /><br>
+
+    <label for="filtroAireCambiado">Filtro de aire cambiado:</label>
+    <input type="checkbox" id="filtroAireCambiado" th:field="*{filtroAireCambiado}" /><br>
+
+    <label for="filtroCombustibleCambiado">Filtro de combustible cambiado:</label>
+    <input type="checkbox" id="filtroCombustibleCambiado" th:field="*{filtroCombustibleCambiado}" /><br><br>
+
+    <button type="submit">Guardar Vehículo</button>
 </form>
 
-<a th:href="@{/vehiculos}">← Volver al listado</a>
 </body>
 </html>

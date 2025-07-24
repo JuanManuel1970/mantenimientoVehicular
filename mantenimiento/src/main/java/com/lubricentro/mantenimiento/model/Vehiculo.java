@@ -1,6 +1,9 @@
 package com.lubricentro.mantenimiento.model;
 
 import jakarta.persistence.*;
+import java.time.LocalDate;
+import org.springframework.format.annotation.DateTimeFormat;
+
 
 @Entity
 public class Vehiculo {
@@ -14,18 +17,56 @@ public class Vehiculo {
     private String modelo;
     private int kilometros;
     private int duracionAceite;
-    private int duracionFiltros;
+    private int kmPorMes;
     private boolean filtroAireCambiado;
     private boolean filtroCombustibleCambiado;
     private boolean filtroAceiteCambiado;
     private String email;
+
     private int proximoServicioKm;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate fechaUltimoCambio;
+
+    private LocalDate fechaProximoCambio;
 
 
     @PrePersist
     @PreUpdate
-    public void calcularProximoServicio() {
+    public void calcularProximoMantenimiento() {
         this.proximoServicioKm = this.kilometros + this.duracionAceite;
+
+        if (fechaUltimoCambio != null && kmPorMes > 0) {
+            int mesesDuracion = duracionAceite / kmPorMes;
+            this.fechaProximoCambio = fechaUltimoCambio.plusMonths(mesesDuracion);
+        } else {
+            this.fechaProximoCambio = null; // No se puede calcular
+        }
+    }
+
+
+    public LocalDate getFechaUltimoCambio() {
+        return fechaUltimoCambio;
+    }
+
+    public void setFechaUltimoCambio(LocalDate fechaUltimoCambio) {
+        this.fechaUltimoCambio = fechaUltimoCambio;
+    }
+
+    public LocalDate getFechaProximoCambio() {
+        return fechaProximoCambio;
+    }
+
+    public void setFechaProximoCambio(LocalDate fechaProximoCambio) {
+        this.fechaProximoCambio = fechaProximoCambio;
+    }
+
+    public int getKmPorMes() {
+        return kmPorMes;
+    }
+
+    public void setKmPorMes(int kmPorMes) {
+        this.kmPorMes = kmPorMes;
     }
 
 
@@ -80,13 +121,7 @@ public class Vehiculo {
         this.duracionAceite = duracionAceite;
     }
 
-    public int getDuracionFiltros() {
-        return duracionFiltros;
-    }
 
-    public void setDuracionFiltros(int duracionFiltros) {
-        this.duracionFiltros = duracionFiltros;
-    }
 
     public boolean isFiltroAireCambiado() {
         return filtroAireCambiado;
