@@ -12,6 +12,7 @@
 <table border="1">
     <thead>
     <tr>
+        <th>Cliente</th>
         <th>Patente</th>
         <th>Marca</th>
         <th>Modelo</th>
@@ -30,14 +31,15 @@
     </thead>
     <tbody>
     <tr th:each="vehiculo : ${vehiculos}">
+        <td th:text="${vehiculo.nombreCliente}"></td>
         <td th:text="${vehiculo.patente}"></td>
         <td th:text="${vehiculo.marca}"></td>
         <td th:text="${vehiculo.modelo}"></td>
         <td th:text="${vehiculo.kilometros}"></td>
         <td th:text="${vehiculo.duracionAceite}"></td>
         <td th:text="${vehiculo.kmPorMes}"></td>
-        <td th:text="${vehiculo.fechaUltimoCambio}"></td>
-        <td th:text="${vehiculo.fechaProximoCambio}"></td>
+        <td th:text="${#temporals.format(vehiculo.fechaUltimoCambio, 'dd-MM-yyyy')}"></td>
+        <td th:text="${#temporals.format(vehiculo.fechaProximoCambio, 'dd-MM-yyyy')}"></td>
         <td th:text="${vehiculo.proximoServicioKm}"></td>
         <td th:text="${vehiculo.email}"></td>
         <td th:text="${vehiculo.filtroAceiteCambiado ? 'Sí' : 'No'}"></td>

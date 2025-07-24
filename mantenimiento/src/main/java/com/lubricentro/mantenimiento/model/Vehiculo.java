@@ -11,7 +11,7 @@ public class Vehiculo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    private String nombreCliente;
     private String patente;
     private String marca;
     private String modelo;
@@ -31,19 +31,30 @@ public class Vehiculo {
     private LocalDate fechaProximoCambio;
 
 
-    @PrePersist
-    @PreUpdate
     public void calcularProximoMantenimiento() {
         this.proximoServicioKm = this.kilometros + this.duracionAceite;
 
         if (fechaUltimoCambio != null && kmPorMes > 0) {
-            int mesesDuracion = duracionAceite / kmPorMes;
-            this.fechaProximoCambio = fechaUltimoCambio.plusMonths(mesesDuracion);
+            double mesesDuracion = (double) duracionAceite / kmPorMes;
+            int diasDuracion = (int) Math.floor(mesesDuracion * 30);
+
+            this.fechaProximoCambio = fechaUltimoCambio.plusDays(diasDuracion);
         } else {
-            this.fechaProximoCambio = null; // No se puede calcular
+            this.fechaProximoCambio = null;
         }
     }
 
+
+
+
+
+    public String getNombreCliente() {
+        return nombreCliente;
+    }
+
+    public void setNombreCliente(String nombreCliente) {
+        this.nombreCliente = nombreCliente;
+    }
 
     public LocalDate getFechaUltimoCambio() {
         return fechaUltimoCambio;

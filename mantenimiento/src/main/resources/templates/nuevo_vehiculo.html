@@ -12,6 +12,9 @@
 
     <input type="hidden" th:field="*{id}" />
 
+    <label for="nombreCliente">Nombre del cliente:</label>
+    <input type="text" id="nombreCliente" th:field="*{nombreCliente}" required /><br><br>
+
     <label for="patente">Patente:</label>
     <input type="text" id="patente" th:field="*{patente}" required /><br><br>
 
@@ -27,14 +30,11 @@
     <label for="duracionAceite">Duración del aceite (en km):</label>
     <input type="number" id="duracionAceite" th:field="*{duracionAceite}" required /><br><br>
 
-
     <label for="kmPorMes">Km recorridos por mes (estimado):</label>
     <input type="number" id="kmPorMes" th:field="*{kmPorMes}" required /><br><br>
 
-    <input type="date" id="fechaUltimoCambio"
-           th:field="*{fechaUltimoCambio}"
-           th:value="${#temporals.format(vehiculo.fechaUltimoCambio, 'yyyy-MM-dd')}" required />
-
+    <label for="fechaUltimoCambio">Fecha del último cambio:</label>
+    <input type="date" id="fechaUltimoCambio" th:field="*{fechaUltimoCambio}" required /><br><br>
 
     <label for="email">Correo de contacto:</label>
     <input type="email" id="email" th:field="*{email}" required /><br><br>
@@ -50,6 +50,7 @@
 
     <button type="submit">Guardar Vehículo</button>
 </form>
+
 
 </body>
 </html>

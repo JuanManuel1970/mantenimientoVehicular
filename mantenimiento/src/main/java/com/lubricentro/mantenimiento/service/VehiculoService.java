@@ -18,6 +18,13 @@ public class VehiculoService {
     @Autowired
     private ServicioEmail servicioEmail; // ✅ Se inyecta el servicio de email
 
+
+
+    public Vehiculo guardarVehiculo(Vehiculo vehiculo) {
+        vehiculo.calcularProximoMantenimiento(); // 🔁 recalculamos antes de guardar
+        return vehiculoRepository.save(vehiculo);
+    }
+
     public List<Vehiculo> obtenerTodos() {
         return vehiculoRepository.findAll();
     }

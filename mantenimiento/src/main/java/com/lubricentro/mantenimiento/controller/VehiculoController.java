@@ -58,9 +58,11 @@ public class VehiculoController {
 
     @PostMapping("/vehiculos")
     public String guardarVehiculo(@ModelAttribute Vehiculo vehiculo) {
-        vehiculoRepository.save(vehiculo); // Hibernate actualiza si el id existe
-        return "redirect:/vehiculos";
+        vehiculoService.guardarVehiculo(vehiculo); // con cálculo automático
+        return "redirect:/vehiculos"; // o listar_vehiculos
     }
+
+
     @Autowired
     private VehiculoService vehiculoService;
 
