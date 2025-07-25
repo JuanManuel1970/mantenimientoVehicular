@@ -31,3 +31,25 @@ build/
 
 ### VS Code ###
 .vscode/
+
+# Archivos de log
+*.log
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+
+# Archivos generados por Maven
+dependency-reduced-pom.xml
+buildNumber.properties
+release.properties
+
+# Archivos de respaldo de versiones de Maven
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+
+# Configuración sensible
+application.properties
+application.yml
