@@ -9,12 +9,18 @@
 <a href="/vehiculos/nuevo">➕ Agregar Vehículo</a>
 <br><br>
 
+
+<div th:if="${mensaje}" style="color: green; font-weight: bold; margin-bottom: 10px;">
+    <p th:text="${mensaje}"></p>
+</div>
+
 <table border="1">
     <thead>
     <tr>
         <th>Cliente</th>
         <th>Patente</th>
         <th>Marca</th>
+        <th>Año</th>
         <th>Modelo</th>
         <th>Kilómetros actuales</th>
         <th>Duración aceite</th>
@@ -34,6 +40,7 @@
         <td th:text="${vehiculo.nombreCliente}"></td>
         <td th:text="${vehiculo.patente}"></td>
         <td th:text="${vehiculo.marca}"></td>
+        <td th:text="${vehiculo.anio}"></td>
         <td th:text="${vehiculo.modelo}"></td>
         <td th:text="${vehiculo.kilometros}"></td>
         <td th:text="${vehiculo.duracionAceite}"></td>
@@ -57,5 +64,16 @@
     </tr>
     </tbody>
 </table>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    /* Verifica y muestra el mensaje */
+    if ([[${mensaje != null}]]) {
+        alert([[${mensaje}]]);
+    }
+    /*]]>*/
+</script>
+
+
+
 </body>
 </html>

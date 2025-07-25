@@ -1,9 +1,9 @@
 package com.lubricentro.mantenimiento.model;
 
 import jakarta.persistence.*;
-import java.time.LocalDate;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.time.LocalDate;
 
 @Entity
 public class Vehiculo {
@@ -11,76 +11,44 @@ public class Vehiculo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String nombreCliente;
     private String patente;
     private String marca;
     private String modelo;
-    private int kilometros;
-    private int duracionAceite;
-    private int kmPorMes;
+    private Integer anio;
+    private Integer kilometros;
+    private Integer duracionAceite;
+    private Integer kmPorMes;
+
     private boolean filtroAireCambiado;
     private boolean filtroCombustibleCambiado;
     private boolean filtroAceiteCambiado;
     private String email;
 
-    private int proximoServicioKm;
+    private Integer proximoServicioKm;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate fechaUltimoCambio;
 
     private LocalDate fechaProximoCambio;
 
-
+    // === Lógica de mantenimiento ===
     public void calcularProximoMantenimiento() {
-        this.proximoServicioKm = this.kilometros + this.duracionAceite;
+        if (kilometros != null && duracionAceite != null) {
+            this.proximoServicioKm = kilometros + duracionAceite;
+        } else {
+            this.proximoServicioKm = null;
+        }
 
-        if (fechaUltimoCambio != null && kmPorMes > 0) {
+        if (fechaUltimoCambio != null && kmPorMes != null && kmPorMes > 0 && duracionAceite != null) {
             double mesesDuracion = (double) duracionAceite / kmPorMes;
             int diasDuracion = (int) Math.floor(mesesDuracion * 30);
-
             this.fechaProximoCambio = fechaUltimoCambio.plusDays(diasDuracion);
         } else {
             this.fechaProximoCambio = null;
         }
     }
-
-
-
-
-
-    public String getNombreCliente() {
-        return nombreCliente;
-    }
-
-    public void setNombreCliente(String nombreCliente) {
-        this.nombreCliente = nombreCliente;
-    }
-
-    public LocalDate getFechaUltimoCambio() {
-        return fechaUltimoCambio;
-    }
-
-    public void setFechaUltimoCambio(LocalDate fechaUltimoCambio) {
-        this.fechaUltimoCambio = fechaUltimoCambio;
-    }
-
-    public LocalDate getFechaProximoCambio() {
-        return fechaProximoCambio;
-    }
-
-    public void setFechaProximoCambio(LocalDate fechaProximoCambio) {
-        this.fechaProximoCambio = fechaProximoCambio;
-    }
-
-    public int getKmPorMes() {
-        return kmPorMes;
-    }
-
-    public void setKmPorMes(int kmPorMes) {
-        this.kmPorMes = kmPorMes;
-    }
-
-
 
     // === Getters y Setters ===
 
@@ -90,6 +58,14 @@ public class Vehiculo {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getNombreCliente() {
+        return nombreCliente;
+    }
+
+    public void setNombreCliente(String nombreCliente) {
+        this.nombreCliente = nombreCliente;
     }
 
     public String getPatente() {
@@ -116,23 +92,37 @@ public class Vehiculo {
         this.modelo = modelo;
     }
 
-    public int getKilometros() {
+    public Integer getAnio() {
+        return anio;
+    }
+
+    public void setAnio(Integer anio) {
+        this.anio = anio;
+    }
+
+    public Integer getKilometros() {
         return kilometros;
     }
 
-    public void setKilometros(int kilometros) {
+    public void setKilometros(Integer kilometros) {
         this.kilometros = kilometros;
     }
 
-    public int getDuracionAceite() {
+    public Integer getDuracionAceite() {
         return duracionAceite;
     }
 
-    public void setDuracionAceite(int duracionAceite) {
+    public void setDuracionAceite(Integer duracionAceite) {
         this.duracionAceite = duracionAceite;
     }
 
+    public Integer getKmPorMes() {
+        return kmPorMes;
+    }
 
+    public void setKmPorMes(Integer kmPorMes) {
+        this.kmPorMes = kmPorMes;
+    }
 
     public boolean isFiltroAireCambiado() {
         return filtroAireCambiado;
@@ -166,11 +156,27 @@ public class Vehiculo {
         this.email = email;
     }
 
-    public int getProximoServicioKm() {
+    public Integer getProximoServicioKm() {
         return proximoServicioKm;
     }
 
-    public void setProximoServicioKm(int proximoServicioKm) {
+    public void setProximoServicioKm(Integer proximoServicioKm) {
         this.proximoServicioKm = proximoServicioKm;
+    }
+
+    public LocalDate getFechaUltimoCambio() {
+        return fechaUltimoCambio;
+    }
+
+    public void setFechaUltimoCambio(LocalDate fechaUltimoCambio) {
+        this.fechaUltimoCambio = fechaUltimoCambio;
+    }
+
+    public LocalDate getFechaProximoCambio() {
+        return fechaProximoCambio;
+    }
+
+    public void setFechaProximoCambio(LocalDate fechaProximoCambio) {
+        this.fechaProximoCambio = fechaProximoCambio;
     }
 }
