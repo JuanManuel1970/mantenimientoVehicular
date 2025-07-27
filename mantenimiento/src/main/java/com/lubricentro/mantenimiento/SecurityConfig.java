@@ -39,8 +39,18 @@ public class SecurityConfig {
                                 response.sendRedirect("/vehiculos");
                             }
                         })
+                        .failureHandler((request, response, exception) -> {
+                            if (exception instanceof org.springframework.security.authentication.InternalAuthenticationServiceException &&
+                                    exception.getCause() instanceof com.lubricentro.mantenimiento.security.UsuarioInactivoException) {
+                                response.sendRedirect("/login?inactivo");
+                            } else {
+                                response.sendRedirect("/login?error");
+                            }
+                        })
+
                         .permitAll()
                 )
+
                 .logout(logout -> logout
                         .logoutSuccessUrl("/login?logout")
                         .permitAll()
