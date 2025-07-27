@@ -1,79 +1,173 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/extras/spring-security">
+
 <head>
     <title>Vehículos</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 </head>
-<body>
-<h1>Vehículos Registrados</h1>
 
-<a href="/vehiculos/nuevo">➕ Agregar Vehículo</a>
-<br><br>
+<body class="bg-light">
+<div class="container py-4">
+    <!-- Encabezado -->
+    <h1 th:if="${nombreUsuario != null}" th:text="'Bienvenido/a, ' + ${nombreUsuario} + '!!'"></h1>
+    <h1 th:unless="${nombreUsuario != null}">Bienvenido/a!</h1>
 
 
-<div th:if="${mensaje}" style="color: green; font-weight: bold; margin-bottom: 10px;">
-    <p th:text="${mensaje}"></p>
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="text-primary"><i class="bi bi-truck"></i> Vehículos Registrados</h2>
+        <div class="d-flex gap-2">
+            <a href="/" class="btn btn-outline-primary"><i class="bi bi-house"></i> Inicio</a>
+            <a href="/login" class="btn btn-outline-secondary"><i class="bi bi-box-arrow-right"></i> Cerrar sesión</a>
+            <a href="/vehiculos/nuevo" class="btn btn-success"><i class="bi bi-plus-circle"></i> Agregar Vehículo</a>
+        </div>
+    </div>
+
+    <!-- Mensaje -->
+    <div th:if="${mensaje}" class="alert alert-success" role="alert">
+        <p th:text="${mensaje}"></p>
+    </div>
+
+
+    <!-- 👑 Para ADMIN: agrupar por usuario -->
+    <div sec:authorize="hasRole('ADMIN')">
+        <div th:each="usuarioAgrupado : ${usuariosUnicos}">
+
+            <h3 class="mt-4 text-success" th:text="${usuarioAgrupado.nombreUsuario + ' (' + usuarioAgrupado.email + ')'}"></h3>
+
+
+            <div class="row">
+                <div class="col-md-6 col-lg-4 mb-4"
+                     th:each="vehiculo : ${usuarioAgrupado.vehiculos}">
+                     <div class="card shadow-sm h-100">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">
+                                <i class="bi bi-car-front-fill"></i>
+                                <span th:text="${vehiculo.patente}">Patente</span> —
+                                <span th:text="${vehiculo.marca}">Marca</span>
+                            </h5>
+
+                            <p class="mb-1">
+                                <strong>Cliente:</strong> <span th:text="${vehiculo.nombreCliente}">Cliente</span><br>
+                                <strong>Modelo:</strong> <span th:text="${vehiculo.modelo}"></span>
+                                (<span th:text="${vehiculo.anio}"></span>)
+                            </p>
+
+                            <p class="mb-1">
+                                <strong>Kilómetros actuales:</strong> <span th:text="${vehiculo.kilometros}"></span><br>
+                                <strong>Duración aceite:</strong> <span th:text="${vehiculo.duracionAceite}"></span> km<br>
+                                <strong>Km/mes:</strong> <span th:text="${vehiculo.kmPorMes}"></span>
+                            </p>
+
+                            <p class="mb-1">
+                                <strong>Últ. cambio:</strong>
+                                <span th:text="${#temporals.format(vehiculo.fechaUltimoCambio, 'dd-MM-yyyy')}"></span><br>
+                                <strong>Próx. cambio:</strong>
+                                <span th:text="${#temporals.format(vehiculo.fechaProximoCambio, 'dd-MM-yyyy')}"></span> —
+                                <span th:text="${vehiculo.proximoServicioKm}"></span> km
+                            </p>
+
+                            <p class="mb-1">
+                                <strong>Email:</strong> <span th:text="${vehiculo.email}"></span>
+                            </p>
+
+                            <p class="mb-1">
+                                <strong>Filtros:</strong><br>
+                                <i class="bi bi-droplet"></i> Aceite: <span th:text="${vehiculo.filtroAceiteCambiado ? '✅' : '❌'}"></span><br>
+                                <i class="bi bi-wind"></i> Aire: <span th:text="${vehiculo.filtroAireCambiado ? '✅' : '❌'}"></span><br>
+                                <i class="bi bi-fuel-pump"></i> Combustible: <span th:text="${vehiculo.filtroCombustibleCambiado ? '✅' : '❌'}"></span>
+                            </p>
+
+                            <div class="mt-auto d-flex flex-wrap gap-2">
+                                <a th:href="@{'/vehiculos/editar/' + ${vehiculo.id}}" class="btn btn-warning btn-sm">
+                                    <i class="bi bi-pencil-square"></i> Editar
+                                </a>
+                                <a th:href="@{'/vehiculos/eliminar/' + ${vehiculo.id}}"
+                                   onclick="return confirm('¿Eliminar este vehículo?')"
+                                   class="btn btn-danger btn-sm">
+                                    <i class="bi bi-trash"></i> Eliminar
+                                </a>
+                                <form th:action="@{'/vehiculos/enviarCorreo/' + ${vehiculo.id}}" method="post" class="d-inline">
+                                    <button type="submit" class="btn btn-info btn-sm">
+                                        <i class="bi bi-envelope"></i> Enviar
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 👤 Para USUARIO común: sin agrupar -->
+    <div sec:authorize="!hasRole('ADMIN')">
+        <div class="row" th:if="${vehiculos}">
+            <div class="col-md-6 col-lg-4 mb-4" th:each="vehiculo : ${vehiculos}">
+                <div class="card shadow-sm h-100">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">
+                            <i class="bi bi-car-front-fill"></i>
+                            <span th:text="${vehiculo.patente}">Patente</span> —
+                            <span th:text="${vehiculo.marca}">Marca</span>
+                        </h5>
+
+                        <p class="mb-1">
+                            <strong>Cliente:</strong> <span th:text="${vehiculo.nombreCliente}">Cliente</span><br>
+                            <strong>Modelo:</strong> <span th:text="${vehiculo.modelo}"></span>
+                            (<span th:text="${vehiculo.anio}"></span>)
+                        </p>
+
+                        <p class="mb-1">
+                            <strong>Kilómetros actuales:</strong> <span th:text="${vehiculo.kilometros}"></span><br>
+                            <strong>Duración aceite:</strong> <span th:text="${vehiculo.duracionAceite}"></span> km<br>
+                            <strong>Km/mes:</strong> <span th:text="${vehiculo.kmPorMes}"></span>
+                        </p>
+
+                        <p class="mb-1">
+                            <strong>Últ. cambio:</strong>
+                            <span th:text="${#temporals.format(vehiculo.fechaUltimoCambio, 'dd-MM-yyyy')}"></span><br>
+                            <strong>Próx. cambio:</strong>
+                            <span th:text="${#temporals.format(vehiculo.fechaProximoCambio, 'dd-MM-yyyy')}"></span> —
+                            <span th:text="${vehiculo.proximoServicioKm}"></span> km
+                        </p>
+
+                        <p class="mb-1">
+                            <strong>Email:</strong> <span th:text="${vehiculo.email}"></span>
+                        </p>
+
+                        <p class="mb-1">
+                            <strong>Filtros:</strong><br>
+                            <i class="bi bi-droplet"></i> Aceite: <span th:text="${vehiculo.filtroAceiteCambiado ? '✅' : '❌'}"></span><br>
+                            <i class="bi bi-wind"></i> Aire: <span th:text="${vehiculo.filtroAireCambiado ? '✅' : '❌'}"></span><br>
+                            <i class="bi bi-fuel-pump"></i> Combustible: <span th:text="${vehiculo.filtroCombustibleCambiado ? '✅' : '❌'}"></span>
+                        </p>
+
+                        <div class="mt-auto d-flex flex-wrap gap-2">
+                            <a th:href="@{'/vehiculos/editar/' + ${vehiculo.id}}" class="btn btn-warning btn-sm">
+                                <i class="bi bi-pencil-square"></i> Editar
+                            </a>
+                            <a th:href="@{'/vehiculos/eliminar/' + ${vehiculo.id}}"
+                               onclick="return confirm('¿Eliminar este vehículo?')"
+                               class="btn btn-danger btn-sm">
+                                <i class="bi bi-trash"></i> Eliminar
+                            </a>
+                            <form th:action="@{'/vehiculos/enviarCorreo/' + ${vehiculo.id}}" method="post" class="d-inline">
+                                <button type="submit" class="btn btn-info btn-sm">
+                                    <i class="bi bi-envelope"></i> Enviar
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
-<table border="1">
-    <thead>
-    <tr>
-        <th>Cliente</th>
-        <th>Patente</th>
-        <th>Marca</th>
-        <th>Año</th>
-        <th>Modelo</th>
-        <th>Kilómetros actuales</th>
-        <th>Duración aceite</th>
-        <th>Km/mes</th>
-        <th>Último cambio</th>
-        <th>Próximo cambio (fecha)</th>
-        <th>Próximo cambio (km)</th>
-        <th>Email</th>
-        <th>Filtro aceite</th>
-        <th>Filtro aire</th>
-        <th>Filtro combustible</th>
-        <th>Acciones</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="vehiculo : ${vehiculos}">
-        <td th:text="${vehiculo.nombreCliente}"></td>
-        <td th:text="${vehiculo.patente}"></td>
-        <td th:text="${vehiculo.marca}"></td>
-        <td th:text="${vehiculo.anio}"></td>
-        <td th:text="${vehiculo.modelo}"></td>
-        <td th:text="${vehiculo.kilometros}"></td>
-        <td th:text="${vehiculo.duracionAceite}"></td>
-        <td th:text="${vehiculo.kmPorMes}"></td>
-        <td th:text="${#temporals.format(vehiculo.fechaUltimoCambio, 'dd-MM-yyyy')}"></td>
-        <td th:text="${#temporals.format(vehiculo.fechaProximoCambio, 'dd-MM-yyyy')}"></td>
-        <td th:text="${vehiculo.proximoServicioKm}"></td>
-        <td th:text="${vehiculo.email}"></td>
-        <td th:text="${vehiculo.filtroAceiteCambiado ? 'Sí' : 'No'}"></td>
-        <td th:text="${vehiculo.filtroAireCambiado ? 'Sí' : 'No'}"></td>
-        <td th:text="${vehiculo.filtroCombustibleCambiado ? 'Sí' : 'No'}"></td>
-        <td>
-            <a th:href="@{'/vehiculos/editar/' + ${vehiculo.id}}">Editar</a> |
-            <a th:href="@{'/vehiculos/eliminar/' + ${vehiculo.id}}" onclick="return confirm('¿Eliminar este vehículo?')">Eliminar</a>
-            <br/>
-               <form th:action="@{'/vehiculos/enviarCorreo/' + ${vehiculo.id}}" method="post">
-                <button type="submit">📧 Enviar recordatorio</button>
-            </form>
-
-        </td>
-    </tr>
-    </tbody>
-</table>
-<script th:inline="javascript">
-    /*<![CDATA[*/
-    /* Verifica y muestra el mensaje */
-    if ([[${mensaje != null}]]) {
-        alert([[${mensaje}]]);
-    }
-    /*]]>*/
-</script>
-
-
-
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

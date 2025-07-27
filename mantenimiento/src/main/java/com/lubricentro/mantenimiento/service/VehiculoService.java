@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import com.lubricentro.mantenimiento.model.Usuario;
 
 @Service
 public class VehiculoService {
@@ -20,6 +21,9 @@ public class VehiculoService {
     private ServicioEmail servicioEmail; // ✅ Se inyecta el servicio de email
 
 
+    public List<Vehiculo> obtenerTodosOrdenadosPorUsuario() {
+        return vehiculoRepository.findAllByOrderByUsuarioNombreUsuarioAsc();
+    }
 
 
     public List<Vehiculo> obtenerTodos() {
@@ -55,6 +59,10 @@ public class VehiculoService {
         vehiculo.calcularProximoMantenimiento();
 
         return vehiculoRepository.save(vehiculo);
+    }
+
+    public List<Vehiculo> obtenerPorUsuario(Usuario usuario) {
+        return vehiculoRepository.findByUsuario(usuario);
     }
 
 

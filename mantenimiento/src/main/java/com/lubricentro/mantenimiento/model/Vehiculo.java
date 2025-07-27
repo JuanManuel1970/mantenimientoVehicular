@@ -18,9 +18,9 @@ public class Vehiculo {
     private String modelo;
     private Integer anio;
     private Integer kilometros;
+    private String marcaAceite;
     private Integer duracionAceite;
     private Integer kmPorMes;
-
     private boolean filtroAireCambiado;
     private boolean filtroCombustibleCambiado;
     private boolean filtroAceiteCambiado;
@@ -30,8 +30,14 @@ public class Vehiculo {
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate fechaUltimoCambio;
+    @ManyToOne
+    @JoinColumn(name = "usuario_id")
+    private Usuario usuario;
 
     private LocalDate fechaProximoCambio;
+
+
+
 
     // === Lógica de mantenimiento ===
     public void calcularProximoMantenimiento() {
@@ -51,6 +57,23 @@ public class Vehiculo {
     }
 
     // === Getters y Setters ===
+
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
+    public String getMarcaAceite() {
+        return marcaAceite;
+    }
+
+    public void setMarcaAceite(String marcaAceite) {
+        this.marcaAceite = marcaAceite;
+    }
 
     public Long getId() {
         return id;

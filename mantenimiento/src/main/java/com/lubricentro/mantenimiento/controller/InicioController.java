@@ -6,8 +6,21 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class InicioController {
 
+
     @GetMapping("/")
-    public String mostrarInicio() {
-        return "inicio"; // buscará inicio.html en /templates
+    public String redirigirInicio() {
+        System.out.println("👉 Entrando a /");
+        return "redirect:/inicio";
     }
+
+    @GetMapping("/inicio")
+    public String mostrarInicio() {
+        System.out.println("👉 Mostrando /inicio");
+        return "inicio";
+    }
+
+
+
+
+
 }

@@ -3,65 +3,115 @@
 <head>
     <meta charset="UTF-8">
     <title>Nuevo Vehículo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
+<body class="bg-light">
 
-<h1>Registrar Nuevo Vehículo</h1>
+<div class="container py-5">
+    <div class="card shadow-lg">
+        <div class="card-header bg-primary text-white">
+            <h3 class="mb-0"><i class="bi bi-plus-circle"></i> Registrar Nuevo Vehículo</h3>
+        </div>
+        <div class="card-body">
 
-<form th:action="${vehiculo.id} != null ? @{'/vehiculos/' + ${vehiculo.id}} : @{/vehiculos}"
-      th:object="${vehiculo}"
-      method="post">
+            <form th:action="${vehiculo.id} != null ? @{'/vehiculos/' + ${vehiculo.id}} : @{/vehiculos}"
+                  th:object="${vehiculo}" method="post">
+
+                <input type="hidden" th:field="*{id}" />
+
+                <!-- Reemplazá solo esta parte del formulario -->
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="nombreCliente" class="form-label">Nombre del cliente</label>
+                        <input type="text" id="nombreCliente" class="form-control" placeholder="Ej: Juan Pérez" th:field="*{nombreCliente}" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="patente" class="form-label">Patente</label>
+                        <input type="text" id="patente" class="form-control" placeholder="Ej: ABC123" th:field="*{patente}" required>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <label for="marca" class="form-label">Marca</label>
+                        <input type="text" id="marca" class="form-control" placeholder="Ej: Ford" th:field="*{marca}" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="modelo" class="form-label">Modelo</label>
+                        <input type="text" id="modelo" class="form-control" placeholder="Ej: Focus" th:field="*{modelo}" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="anio" class="form-label">Año</label>
+                        <input type="number" id="anio" class="form-control" min="1940" max="2060" placeholder="Ej: 2021" th:field="*{anio}" required>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <label for="kilometros" class="form-label">Kilómetros actuales</label>
+                        <input type="number" id="kilometros" class="form-control" placeholder="Ej: 120000" th:field="*{kilometros}" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="duracionAceite" class="form-label">Duración aceite (km)</label>
+                        <input type="number" id="duracionAceite" class="form-control" placeholder="Ej: 10000" th:field="*{duracionAceite}" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="kmPorMes" class="form-label">Km/mes (estimado)</label>
+                        <input type="number" id="kmPorMes" class="form-control" placeholder="Ej: 1500" th:field="*{kmPorMes}" required>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="fechaUltimoCambio" class="form-label">Fecha último cambio</label>
+                        <input type="date" id="fechaUltimoCambio" class="form-control" th:field="*{fechaUltimoCambio}" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="email" class="form-label">Correo electrónico</label>
+                        <input type="email" id="email" class="form-control" placeholder="Ej: juan@mail.com" th:field="*{email}" required>
+                    </div>
+                </div>
 
 
-    <input type="hidden" th:field="*{id}" />
+                <div class="mb-3">
+                    <label class="form-label">Filtros cambiados:</label>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="filtroAceiteCambiado" th:field="*{filtroAceiteCambiado}">
+                        <label class="form-check-label" for="filtroAceiteCambiado">Filtro de aceite</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="filtroAireCambiado" th:field="*{filtroAireCambiado}">
+                        <label class="form-check-label" for="filtroAireCambiado">Filtro de aire</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="filtroCombustibleCambiado" th:field="*{filtroCombustibleCambiado}">
+                        <label class="form-check-label" for="filtroCombustibleCambiado">Filtro de combustible</label>
+                    </div>
+                </div>
 
-    <label for="nombreCliente">Nombre del cliente:</label>
-    <input type="text" id="nombreCliente" th:field="*{nombreCliente}" required /><br><br>
+                <div class="d-flex justify-content-between">
+                    <a href="/vehiculos" class="btn btn-secondary">⬅️ Volver</a>
+                    <button type="submit" class="btn btn-primary"><i class="bi bi-save"></i> Guardar Vehículo</button>
+                </div>
+            </form>
 
-    <label for="patente">Patente:</label>
-    <input type="text" id="patente" th:field="*{patente}" required /><br><br>
+        </div>
+    </div>
 
-    <label for="marca">Marca:</label>
-    <input type="text" id="marca" th:field="*{marca}" required /><br><br>
-
-    <label for="anio">Año:</label>
-    <input type="number" id="anio" th:field="*{anio}" min="1940" max="2060" required /><br><br>
-
-
-    <label for="modelo">Modelo:</label>
-    <input type="text" id="modelo" th:field="*{modelo}" required /><br><br>
-
-    <label for="kilometros">Kilómetros actuales:</label>
-    <input type="number" id="kilometros" th:field="*{kilometros}" required /><br><br>
-
-    <label for="duracionAceite">Duración del aceite (en km):</label>
-    <input type="number" id="duracionAceite" th:field="*{duracionAceite}" required /><br><br>
-
-    <label for="kmPorMes">Km recorridos por mes (estimado):</label>
-    <input type="number" id="kmPorMes" th:field="*{kmPorMes}" required /><br><br>
-
-    <label for="fechaUltimoCambio">Fecha del último cambio:</label>
-    <input type="date" id="fechaUltimoCambio" th:field="*{fechaUltimoCambio}" required /><br><br>
-
-    <label for="email">Correo de contacto:</label>
-    <input type="email" id="email" th:field="*{email}" required /><br><br>
-
-    <label for="filtroAceiteCambiado">Filtro de aceite cambiado:</label>
-    <input type="checkbox" id="filtroAceiteCambiado" th:field="*{filtroAceiteCambiado}" /><br>
-
-    <label for="filtroAireCambiado">Filtro de aire cambiado:</label>
-    <input type="checkbox" id="filtroAireCambiado" th:field="*{filtroAireCambiado}" /><br>
-
-    <label for="filtroCombustibleCambiado">Filtro de combustible cambiado:</label>
-    <input type="checkbox" id="filtroCombustibleCambiado" th:field="*{filtroCombustibleCambiado}" /><br><br>
-
-    <button type="submit">Guardar Vehículo</button>
-</form>
-
-<div th:if="${error}" style="color:red; font-weight: bold;">
-    <p th:text="${error}"></p>
+    <!-- Mensaje de error -->
+    <div th:if="${error}" class="alert alert-danger mt-3">
+        <p th:text="${error}"></p>
+    </div>
 </div>
 
+<!-- Bootstrap JS + Icons -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Script de alerta si hay error -->
 <script th:inline="javascript">
     /*<![CDATA[*/
     if ([[${error != null}]]) {
@@ -72,7 +122,3 @@
 
 </body>
 </html>
-
-
-
-
