@@ -27,6 +27,8 @@
         <thead class="table-dark">
         <tr>
             <th>Email</th>
+            <th>Nombre</th>
+            <th>Fecha de alta</th>
             <th>Rol</th>
             <th>Estado</th>
             <th class="text-center">Acciones</th>
@@ -35,13 +37,15 @@
         <tbody>
         <tr th:each="usuario : ${usuarios}">
             <td th:text="${usuario.email}"></td>
+            <td th:text="${usuario.nombreUsuario}">--</td>
+            <td th:text="${#temporals.format(usuario.fechaAlta, 'dd/MM/yyyy')}">--</td>
             <td th:text="${usuario.rol}"></td>
             <td>
                 <span th:text="${usuario.activo ? 'Activo' : 'Inactivo'}"
                       th:classappend="${usuario.activo} ? 'text-success' : 'text-danger'"></span>
             </td>
             <td class="text-center">
-                <!-- Activar usuario -->
+                <!-- Activar -->
                 <form th:if="${!usuario.activo}"
                       th:action="@{'/admin/usuarios/' + ${usuario.id} + '/activar'}"
                       method="post"
@@ -49,7 +53,7 @@
                     <button type="submit" class="btn btn-success btn-sm">Activar</button>
                 </form>
 
-                <!-- Desactivar usuario -->
+                <!-- Desactivar -->
                 <form th:if="${usuario.activo}"
                       th:action="@{'/admin/usuarios/' + ${usuario.id} + '/desactivar'}"
                       method="post"
@@ -57,20 +61,21 @@
                     <button type="submit" class="btn btn-warning btn-sm">Desactivar</button>
                 </form>
 
-
-                <!-- ✅ Eliminar -->
+                <!-- Eliminar -->
                 <form th:action="@{'/admin/usuarios/' + ${usuario.id} + '/eliminar'}"
                       method="post"
                       style="display:inline;"
                       onsubmit="return confirm('¿Estás seguro que querés eliminar este usuario?');">
                     <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
                 </form>
-
             </td>
         </tr>
         </tbody>
     </table>
 </div>
+    <div class="mb-3">
+        <a href="/admin/dashboard" class="btn btn-success">&larr; Volver al panel</a>
+    </div>
 
 </body>
 </html>

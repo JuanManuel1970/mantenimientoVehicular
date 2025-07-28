@@ -7,7 +7,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.security.access.prepost.PreAuthorize;
+import jakarta.validation.Valid;
+import org.springframework.validation.BindingResult;
 
+
+import java.time.LocalDate;
 import java.util.List;
 
 @Controller
@@ -24,15 +28,23 @@ public class UsuarioController {
     }
 
     @PostMapping("/registro")
-    public String registrarUsuario(@ModelAttribute Usuario usuario, Model model) {
+    public String registrarUsuario(@Valid @ModelAttribute("usuario") Usuario usuario,
+                                   BindingResult result,
+                                   Model model) {
+        if (result.hasErrors()) {
+            return "registro"; // Vuelve a la vista mostrando errores
+        }
+
         try {
-            usuarioService.registrar(usuario); // Este método encripta la clave y guarda
+            usuario.setFechaAlta(LocalDate.now());
+            usuarioService.registrar(usuario); // guarda y encripta
             return "redirect:/login";
         } catch (IllegalArgumentException ex) {
             model.addAttribute("error", ex.getMessage());
             return "registro";
         }
     }
+
 
     @GetMapping("/login")
     public String mostrarLogin() {
@@ -102,6 +114,7 @@ public class UsuarioController {
     @PostMapping("/admin/usuarios")
     public String crearUsuarioAdmin(@ModelAttribute Usuario usuario, Model model) {
         try {
+            usuario.setFechaAlta(LocalDate.now());
             usuarioService.registrarNuevoUsuario(usuario);
             return "redirect:/admin/usuarios";
         } catch (IllegalArgumentException ex) {
