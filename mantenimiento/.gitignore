@@ -54,5 +54,5 @@ pom.xml.next
 # Configuración sensible
 application.properties
 application.yml
-application-secrets.properties
+
 src/main/resources/application.properties
