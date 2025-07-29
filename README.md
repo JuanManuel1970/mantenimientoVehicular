@@ -24,7 +24,9 @@ Aplicación web desarrollada con Spring Boot y Thymeleaf para gestionar el mante
 📂 Estructura del proyecto
 
 src/
- └─ main/
+ └─ 
+ main/
+ 
      ├─ java/
      │   └─ com.lubricentro.mantenimiento/
      │       ├─ controller/
