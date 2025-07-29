@@ -98,6 +98,7 @@ Aplicación web desarrollada con **Java + Spring Boot**, pensada para lubricentr
 ```bash
 git clone https://github.com/tu-usuario/tu-repo.git
 cd tu-repo
+![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=JuanManuel11970&layout=compact&theme=dark)
 
 
 
