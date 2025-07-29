@@ -30,7 +30,7 @@ Aplicación web desarrollada con **Java + Spring Boot**, pensada para lubricentr
 ### 🏁 Pantalla de Inicio
 
 <p align="center">
-  <img src="mantenimiento/docs/02_bienvenida.png" alt="Bienvenida" />
+  <img src="mantenimiento/docs/02_bienvenida.png" width="800" alt="Bienvenida" />
 </p>
 
 ---
@@ -38,7 +38,7 @@ Aplicación web desarrollada con **Java + Spring Boot**, pensada para lubricentr
 ### 👤 Registro de Usuario
 
 <p align="center">
-  <img src="mantenimiento/docs/03_registro.png" alt="Registro" />
+  <img src="mantenimiento/docs/03_registro.png" width="800" alt="Registro" />
 </p>
 
 ---
@@ -46,7 +46,7 @@ Aplicación web desarrollada con **Java + Spring Boot**, pensada para lubricentr
 ### 🔐 Inicio de Sesión
 
 <p align="center">
-  <img src="mantenimiento/docs/04_login.png" alt="Login" />
+  <img src="mantenimiento/docs/04_login.png" width="800" alt="Login" />
 </p>
 
 ---
@@ -54,7 +54,7 @@ Aplicación web desarrollada con **Java + Spring Boot**, pensada para lubricentr
 ### ➕ Registrar Nuevo Vehículo
 
 <p align="center">
-  <img src="mantenimiento/docs/05_alta_vehiculo.png" alt="Registrar vehículo" />
+  <img src="mantenimiento/docs/05_alta_vehiculo.png" width="800"  alt="Registrar vehículo" />
 </p>
 
 ---
@@ -62,7 +62,7 @@ Aplicación web desarrollada con **Java + Spring Boot**, pensada para lubricentr
 ### 📋 Vehículos Registrados
 
 <p align="center">
-  <img src="mantenimiento/docs/06_listado_vehiculos.png" alt="Listado de vehículos" />
+  <img src="mantenimiento/docs/06_listado_vehiculos.png" width="800"  alt="Listado de vehículos" />
 </p>
 
 ---
@@ -70,7 +70,7 @@ Aplicación web desarrollada con **Java + Spring Boot**, pensada para lubricentr
 ### 📧 Mail Enviado al Cliente
 
 <p align="center">
-  <img src="mantenimiento/docs/07_mail_enviado.png" alt="Mail enviado" />
+  <img src="mantenimiento/docs/07_mail_enviado.png" width="800" alt="Mail enviado" />
 </p>
 
 ---
@@ -78,7 +78,7 @@ Aplicación web desarrollada con **Java + Spring Boot**, pensada para lubricentr
 ### 🧑‍💼 Panel del Administrador
 
 <p align="center">
-  <img src="mantenimiento/docs/08_panel_admin.png" alt="Panel admin" />
+  <img src="mantenimiento/docs/08_panel_admin.png" width="800" alt="Panel admin" />
 </p>
 
 ---
@@ -86,7 +86,7 @@ Aplicación web desarrollada con **Java + Spring Boot**, pensada para lubricentr
 ### 🧾 Gestión de Usuarios
 
 <p align="center">
-  <img src="mantenimiento/docs/09_gestion_usuarios.png" alt="Usuarios" />
+  <img src="mantenimiento/docs/09_gestion_usuarios.png"  width="800" alt="Usuarios" />
 </p>
 
 ---
