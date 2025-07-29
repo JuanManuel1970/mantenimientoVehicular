@@ -48,7 +48,14 @@ Juan Manuel
 <img width="686" height="560" alt="image" src="https://github.com/user-attachments/assets/18cfcf10-a1d8-4645-b904-b7d90d5f5417" />
 <img width="1220" height="612" alt="image" src="https://github.com/user-attachments/assets/9fe2ca67-f94a-4b36-b988-e3cf15c75682" />
 <img width="1151" height="623" alt="image" src="https://github.com/user-attachments/assets/5ea8a8f2-45f1-4231-b654-9873427dfc5f" />
+Panel del Administrador : 
+<img width="1285" height="496" alt="image" src="https://github.com/user-attachments/assets/1c5fe878-84df-4b80-bd37-24b0ea7e4e23" />
+
 <img width="1203" height="570" alt="image" src="https://github.com/user-attachments/assets/4a8342a3-0d4d-4bd3-88a2-66333edfb9e7" />
+Mail enviado : 
+<img width="708" height="471" alt="image" src="https://github.com/user-attachments/assets/e140c6cd-1db5-4715-989b-f5ca3d7a574b" />
+
+
 
 
 
