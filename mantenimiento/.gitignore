@@ -13,6 +13,7 @@ target/
 .springBeans
 .sts4-cache
 
+
 ### IntelliJ IDEA ###
 .idea
 *.iws
@@ -53,3 +54,5 @@ pom.xml.next
 # Configuración sensible
 application.properties
 application.yml
+application-secrets.properties
+src/main/resources/application.properties
