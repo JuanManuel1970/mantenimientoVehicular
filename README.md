@@ -62,7 +62,7 @@ Aplicación web desarrollada con **Java + Spring Boot**, pensada para lubricentr
 ### 📋 Vehículos Registrados
 
 <p align="center">
-  <img src="docs/06_listado_vehiculos.png" alt="Listado de vehículos" />
+  <img src="mantenimiento/docs/06_listado_vehiculos.png" alt="Listado de vehículos" />
 </p>
 
 ---
