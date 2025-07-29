@@ -1,55 +1,103 @@
-# 🛠️ Sistema de Mantenimiento de Vehículos
+# 🚗 Sistema de Mantenimiento Vehicular
 
-Aplicación web desarrollada con Spring Boot y Thymeleaf para gestionar el mantenimiento de vehículos en un lubricentro.
+Aplicación web desarrollada con **Java + Spring Boot**, pensada para lubricentros o talleres. Permite gestionar vehículos, mantenimientos, clientes y notificaciones automáticas por correo.
 
-## 🚗 Funcionalidades
+---
 
-- Registro de vehículos con información completa del cliente.
-- Cálculo automático del próximo servicio por fecha y kilometraje.
-- Envío de recordatorios por correo electrónico.
-- Edición y eliminación de vehículos existentes.
+## 🧰 Tecnologías utilizadas
 
-## 🛠️ Tecnologías
-
-- Java 17
+- Java 17+
 - Spring Boot
-- Spring Data JPA (Hibernate)
+- Spring Security
 - Thymeleaf
-- H2 / MySQL / SQLite (según configuración)
-- JavaMail (enviar correos)
-- Maven
+- JPA / Hibernate
+- MySQL o H2 (configurable)
+- Bootstrap 5
+- SMTP para envío de correos
 
-## 📸 Capturas
+---
 
-📂 Estructura del proyecto
+## 📸 Capturas de pantalla
 
-src/
- └─ 
- main/
- 
-     ├─ java/
-     │   └─ com.lubricentro.mantenimiento/
-     │       ├─ controller/
-     │       ├─ model/
-     │       ├─ repository/
-     │       ├─ service/
-     └─ resources/
-         ├─ templates/
-         └─ application.properties
+### 🛠️ Proyecto en ejecución
 
-👨‍💻 Autor
-Juan Manuel
-📧 juanma26@gmail.com
+<p align="center">
+  <img src="docs/01_ejecucion_app.png" alt="Ejecución del proyecto" />
+</p>
 
+---
 
+### 🏁 Pantalla de Inicio
 
-<img width="923" height="590" alt="image" src="https://github.com/user-attachments/assets/2b679174-3fa7-41de-8b9e-b2869ba3e57d" />
-<img width="561" height="470" alt="image" src="https://github.com/user-attachments/assets/22caeedd-2b84-4031-9d6c-04f02c75cd10" />
-<img width="686" height="560" alt="image" src="https://github.com/user-attachments/assets/18cfcf10-a1d8-4645-b904-b7d90d5f5417" />
-<img width="1220" height="612" alt="image" src="https://github.com/user-attachments/assets/9fe2ca67-f94a-4b36-b988-e3cf15c75682" />
-<img width="1151" height="623" alt="image" src="https://github.com/user-attachments/assets/5ea8a8f2-45f1-4231-b654-9873427dfc5f" />
-<img width="1203" height="570" alt="image" src="https://github.com/user-attachments/assets/4a8342a3-0d4d-4bd3-88a2-66333edfb9e7" />
+<p align="center">
+  <img src="docs/02_bienvenida.png" alt="Bienvenida" />
+</p>
 
+---
+
+### 👤 Registro de Usuario
+
+<p align="center">
+  <img src="docs/03_registro.png" alt="Registro" />
+</p>
+
+---
+
+### 🔐 Inicio de Sesión
+
+<p align="center">
+  <img src="docs/04_login.png" alt="Login" />
+</p>
+
+---
+
+### ➕ Registrar Nuevo Vehículo
+
+<p align="center">
+  <img src="docs/05_alta_vehiculo.png" alt="Registrar vehículo" />
+</p>
+
+---
+
+### 📋 Vehículos Registrados
+
+<p align="center">
+  <img src="docs/06_listado_vehiculos.png" alt="Listado de vehículos" />
+</p>
+
+---
+
+### 📧 Mail Enviado al Cliente
+
+<p align="center">
+  <img src="docs/07_mail_enviado.png" alt="Mail enviado" />
+</p>
+
+---
+
+### 🧑‍💼 Panel del Administrador
+
+<p align="center">
+  <img src="docs/08_panel_admin.png" alt="Panel admin" />
+</p>
+
+---
+
+### 🧾 Gestión de Usuarios
+
+<p align="center">
+  <img src="docs/09_gestion_usuarios.png" alt="Usuarios" />
+</p>
+
+---
+
+## ⚙️ Cómo ejecutar el proyecto
+
+1. Cloná el repo:
+
+```bash
+git clone https://github.com/tu-usuario/tu-repo.git
+cd tu-repo
 
 
 
