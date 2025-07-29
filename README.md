@@ -43,7 +43,14 @@ Juan Manuel
 
 
 
-## ▶️ Cómo correr el proyecto
+<img width="923" height="590" alt="image" src="https://github.com/user-attachments/assets/2b679174-3fa7-41de-8b9e-b2869ba3e57d" />
+<img width="561" height="470" alt="image" src="https://github.com/user-attachments/assets/22caeedd-2b84-4031-9d6c-04f02c75cd10" />
+<img width="686" height="560" alt="image" src="https://github.com/user-attachments/assets/18cfcf10-a1d8-4645-b904-b7d90d5f5417" />
+<img width="1220" height="612" alt="image" src="https://github.com/user-attachments/assets/9fe2ca67-f94a-4b36-b988-e3cf15c75682" />
+<img width="1151" height="623" alt="image" src="https://github.com/user-attachments/assets/5ea8a8f2-45f1-4231-b654-9873427dfc5f" />
+<img width="1203" height="570" alt="image" src="https://github.com/user-attachments/assets/4a8342a3-0d4d-4bd3-88a2-66333edfb9e7" />
 
-```bash
-mvn spring-boot:run
+
+
+
+
