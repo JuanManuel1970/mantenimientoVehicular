@@ -22,7 +22,7 @@ Aplicación web desarrollada con **Java + Spring Boot**, pensada para lubricentr
 ### 🛠️ Proyecto en ejecución
 
 <p align="center">
-  <img src="docs/01_ejecucion_app.png" alt="Ejecución del proyecto" />
+  <img src="mantenimiento/docs/01_ejecucion_app.png" alt="Ejecución del proyecto" />
 </p>
 
 ---
