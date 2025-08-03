@@ -31,7 +31,6 @@ public class ServicioEmail {
 
                     "Último mantenimiento: " + vehiculo.getFechaUltimoCambio().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")) + "\n\n" +
                     "🛠 Cambios realizados:\n" +
-                    "  - Aceite ✔\n" +
                     "  - Filtro de aire " + (vehiculo.isFiltroAireCambiado() ? "✔" : "❌") + "\n" +
                     "  - Filtro de combustible " + (vehiculo.isFiltroCombustibleCambiado() ? "✔" : "❌") + "\n" +
                     "  - Filtro de aceite " + (vehiculo.isFiltroAceiteCambiado() ? "✔" : "❌") + "\n\n" +

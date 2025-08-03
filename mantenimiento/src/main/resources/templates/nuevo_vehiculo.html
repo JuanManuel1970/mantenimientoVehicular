@@ -7,6 +7,7 @@
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 </head>
 <body class="bg-light">
 
@@ -17,12 +18,16 @@
         </div>
         <div class="card-body">
 
+            <!-- Mensaje de error -->
+            <div th:if="${error}" class="alert alert-danger">
+                <p th:text="${error}"></p>
+            </div>
+
             <form th:action="${vehiculo.id} != null ? @{'/vehiculos/' + ${vehiculo.id}} : @{/vehiculos}"
                   th:object="${vehiculo}" method="post">
 
                 <input type="hidden" th:field="*{id}" />
 
-                <!-- Reemplazá solo esta parte del formulario -->
                 <div class="row mb-3">
                     <div class="col-md-6">
                         <label for="nombreCliente" class="form-label">Nombre del cliente</label>
@@ -30,7 +35,13 @@
                     </div>
                     <div class="col-md-6">
                         <label for="patente" class="form-label">Patente</label>
-                        <input type="text" id="patente" class="form-control" placeholder="Ej: ABC123" th:field="*{patente}" required>
+                        <input type="text" id="patente" class="form-control"
+                               placeholder="Ej: ABC123 o AB123CD"
+                               th:field="*{patente}"
+                               pattern="^([A-Z]{3}[0-9]{3}|[A-Z]{2}[0-9]{3}[A-Z]{2})$"
+                               title="Formato válido: ABC123 o AB123CD"
+                               oninput="this.value = this.value.toUpperCase();"
+                               required>
                     </div>
                 </div>
 
@@ -52,15 +63,27 @@
                 <div class="row mb-3">
                     <div class="col-md-4">
                         <label for="kilometros" class="form-label">Kilómetros actuales</label>
-                        <input type="number" id="kilometros" class="form-control" placeholder="Ej: 120000" th:field="*{kilometros}" required>
+                        <input type="number" id="kilometros" class="form-control"
+                               placeholder="Ej: 120000" th:field="*{kilometros}"
+                               min="11" max="1999999"
+                               title="Debe ser mayor a 10 y menor a 2.000.000"
+                               required>
                     </div>
                     <div class="col-md-4">
                         <label for="duracionAceite" class="form-label">Duración aceite (km)</label>
-                        <input type="number" id="duracionAceite" class="form-control" placeholder="Ej: 10000" th:field="*{duracionAceite}" required>
+                        <input type="number" id="duracionAceite" class="form-control"
+                               placeholder="Ej: 10000" th:field="*{duracionAceite}"
+                               min="1001" max="19999"
+                               title="Debe ser mayor a 1000 y menor a 20.000"
+                               required>
                     </div>
                     <div class="col-md-4">
                         <label for="kmPorMes" class="form-label">Km/mes (estimado)</label>
-                        <input type="number" id="kmPorMes" class="form-control" placeholder="Ej: 1500" th:field="*{kmPorMes}" required>
+                        <input type="number" id="kmPorMes" class="form-control"
+                               placeholder="Ej: 1500" th:field="*{kmPorMes}"
+                               min="151"
+                               title="Debe ser mayor a 150 y menor a la duración del aceite"
+                               required>
                     </div>
                 </div>
 
@@ -74,7 +97,6 @@
                         <input type="email" id="email" class="form-control" placeholder="Ej: juan@mail.com" th:field="*{email}" required>
                     </div>
                 </div>
-
 
                 <div class="mb-3">
                     <label class="form-label">Filtros cambiados:</label>
@@ -100,15 +122,9 @@
 
         </div>
     </div>
-
-    <!-- Mensaje de error -->
-    <div th:if="${error}" class="alert alert-danger mt-3">
-        <p th:text="${error}"></p>
-    </div>
 </div>
 
-<!-- Bootstrap JS + Icons -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+<!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 <!-- Script de alerta si hay error -->

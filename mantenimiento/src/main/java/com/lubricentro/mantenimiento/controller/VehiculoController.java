@@ -72,20 +72,39 @@ public class VehiculoController {
 
     @PostMapping("/vehiculos")
     public String guardarVehiculo(@ModelAttribute Vehiculo vehiculo, Model model) {
-        try {
-            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-            String email = auth.getName();
-            Usuario usuario = usuarioService.buscarPorEmail(email);
-            vehiculo.setUsuario(usuario);
+        List<String> errores = new ArrayList<>();
 
-            vehiculoService.guardarVehiculo(vehiculo);
-            return "redirect:/vehiculos";
-        } catch (IllegalArgumentException ex) {
-            model.addAttribute("error", ex.getMessage());
+        // Validaciones
+        if (!esPatenteValida(vehiculo.getPatente())) {
+            errores.add("La patente ingresada no es válida. Use formato ABC123 o AB123CD.");
+        }
+        if (vehiculo.getKilometros() <= 10 || vehiculo.getKilometros() >= 2_000_000) {
+            errores.add("Los kilómetros actuales deben ser mayores a 10 y menores a 2.000.000.");
+        }
+        if (vehiculo.getDuracionAceite() <= 1000 || vehiculo.getDuracionAceite() >= 20000) {
+            errores.add("La duración del aceite debe ser mayor a 1000 y menor a 20000.");
+        }
+        if (vehiculo.getKmPorMes() <= 150 || vehiculo.getKmPorMes() >= vehiculo.getDuracionAceite()) {
+            errores.add("Los km/mes estimados deben ser mayores a 150 y menores que la duración del aceite.");
+        }
+
+        if (!errores.isEmpty()) {
+            model.addAttribute("errores", errores);
             model.addAttribute("vehiculo", vehiculo);
             return "nuevo_vehiculo";
         }
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String email = auth.getName();
+        Usuario usuario = usuarioService.buscarPorEmail(email);
+        vehiculo.setUsuario(usuario);
+
+        vehiculoService.guardarVehiculo(vehiculo);
+        return "redirect:/vehiculos";
     }
+
+
+
 
     @GetMapping("/vehiculos/editar/{id}")
     public String mostrarFormularioEdicion(@PathVariable Long id, Model model) {
@@ -97,21 +116,38 @@ public class VehiculoController {
 
     @PostMapping("/vehiculos/{id}")
     public String actualizarVehiculo(@PathVariable Long id, @ModelAttribute Vehiculo vehiculo, Model model) {
-        vehiculo.setId(id);
-        try {
-            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-            String email = auth.getName();
-            Usuario usuario = usuarioService.buscarPorEmail(email);
-            vehiculo.setUsuario(usuario);
+        List<String> errores = new ArrayList<>();
 
-            vehiculoService.guardarVehiculo(vehiculo);
-            return "redirect:/vehiculos";
-        } catch (IllegalArgumentException ex) {
-            model.addAttribute("error", ex.getMessage());
+        if (!esPatenteValida(vehiculo.getPatente())) {
+            errores.add("La patente ingresada no es válida. Use formato ABC123 o AB123CD.");
+        }
+        if (vehiculo.getKilometros() <= 10 || vehiculo.getKilometros() >= 2_000_000) {
+            errores.add("Los kilómetros actuales deben ser mayores a 10 y menores a 2.000.000.");
+        }
+        if (vehiculo.getDuracionAceite() <= 1000 || vehiculo.getDuracionAceite() >= 20000) {
+            errores.add("La duración del aceite debe ser mayor a 1000 y menor a 20000.");
+        }
+        if (vehiculo.getKmPorMes() <= 150 || vehiculo.getKmPorMes() >= vehiculo.getDuracionAceite()) {
+            errores.add("Los km/mes estimados deben ser mayores a 150 y menores que la duración del aceite.");
+        }
+
+        if (!errores.isEmpty()) {
+            model.addAttribute("errores", errores);
             model.addAttribute("vehiculo", vehiculo);
             return "nuevo_vehiculo";
         }
+
+        Vehiculo vehiculoExistente = vehiculoService.obtenerPorId(id)
+                .orElseThrow(() -> new IllegalArgumentException("Vehículo no encontrado"));
+
+        vehiculo.setUsuario(vehiculoExistente.getUsuario());
+        vehiculo.setId(id);
+
+        vehiculoService.guardarVehiculo(vehiculo);
+        return "redirect:/vehiculos";
     }
+
+
 
     @GetMapping("/vehiculos/eliminar/{id}")
     public String eliminarVehiculo(@PathVariable Long id) {
@@ -130,4 +166,9 @@ public class VehiculoController {
 
         return "redirect:/vehiculos";
     }
+
+    private boolean esPatenteValida(String patente) {
+        return patente != null && patente.toUpperCase().matches("^([A-Z]{2}\\d{3}[A-Z]{2}|[A-Z]{3}\\d{3})$");
+    }
+
 }
