@@ -171,4 +171,42 @@ public class VehiculoController {
         return patente != null && patente.toUpperCase().matches("^([A-Z]{2}\\d{3}[A-Z]{2}|[A-Z]{3}\\d{3})$");
     }
 
+    @GetMapping("/vehiculos/buscar")
+    public String buscarPorPatente(@RequestParam String patente, Model model) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String email = auth.getName();
+
+        Usuario usuario = usuarioService.buscarPorEmail(email);
+        if (usuario == null) {
+            return "redirect:/login?error";
+        }
+
+        // Normalizar patente
+        String patenteBuscada = patente.trim().toUpperCase();
+
+        // Filtrar según rol
+        Optional<Vehiculo> vehiculoEncontrado;
+        if ("ADMIN".equals(usuario.getRol())) {
+            vehiculoEncontrado = vehiculoService.obtenerTodos().stream()
+                    .filter(v -> v.getPatente().equalsIgnoreCase(patenteBuscada))
+                    .findFirst();
+        } else {
+            vehiculoEncontrado = vehiculoService.obtenerPorUsuario(usuario).stream()
+                    .filter(v -> v.getPatente().equalsIgnoreCase(patenteBuscada))
+                    .findFirst();
+        }
+
+        if (vehiculoEncontrado.isPresent()) {
+            // Mostrar solo el vehículo encontrado
+            model.addAttribute("vehiculos", List.of(vehiculoEncontrado.get()));
+        } else {
+            model.addAttribute("mensaje", "No se encontró ningún vehículo con la patente: " + patenteBuscada);
+            model.addAttribute("vehiculos", Collections.emptyList());
+        }
+
+        model.addAttribute("nombreUsuario", usuario.getNombre());
+        return "vehiculos";
+    }
+
+
 }
