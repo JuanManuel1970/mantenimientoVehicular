@@ -168,6 +168,11 @@
                                 <button type="submit" class="btn btn-info btn-sm">
                                     <i class="bi bi-envelope"></i> Enviar
                                 </button>
+                                <!-- Nuevo botón para agregar otro vehículo -->
+                                <a th:href="@{'/vehiculos/nuevo?nombre=' + ${vehiculo.nombreCliente} + '&email=' + ${vehiculo.email}}"
+                                   class="btn btn-outline-success btn-sm">
+                                    <i class="bi bi-plus-circle"></i> Otro vehículo del cliente
+                                </a>
                             </form>
                         </div>
                     </div>

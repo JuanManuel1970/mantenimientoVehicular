@@ -43,10 +43,10 @@ public class VehiculoService {
         }
 
         // Verifica si existe otro con el mismo email
-        Vehiculo existentePorEmail = vehiculoRepository.findByEmail(vehiculo.getEmail());
-        if (existentePorEmail != null && !existentePorEmail.getId().equals(vehiculo.getId())) {
-            throw new IllegalArgumentException("El email ya está registrado.");
-        }
+       // Vehiculo existentePorEmail = vehiculoRepository.findByEmail(vehiculo.getEmail());
+        //if (existentePorEmail != null && !existentePorEmail.getId().equals(vehiculo.getId())) {
+         //   throw new IllegalArgumentException("El email ya está registrado.");
+       // }
 
         // Fecha no futura
         if (vehiculo.getFechaUltimoCambio() != null && vehiculo.getFechaUltimoCambio().isAfter(LocalDate.now())) {

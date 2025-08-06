@@ -63,12 +63,19 @@ public class VehiculoController {
     }
 
     @GetMapping("/vehiculos/nuevo")
-    public String mostrarFormularioNuevo(Model model) {
+    public String mostrarFormularioNuevo(@RequestParam(required = false) String nombre,
+                                         @RequestParam(required = false) String email,
+                                         Model model) {
         Vehiculo vehiculo = new Vehiculo();
         vehiculo.setFechaUltimoCambio(LocalDate.now());
+
+        if (nombre != null) vehiculo.setNombreCliente(nombre);
+        if (email != null) vehiculo.setEmail(email);
+
         model.addAttribute("vehiculo", vehiculo);
         return "nuevo_vehiculo";
     }
+
 
     @PostMapping("/vehiculos")
     public String guardarVehiculo(@ModelAttribute Vehiculo vehiculo, Model model) {
