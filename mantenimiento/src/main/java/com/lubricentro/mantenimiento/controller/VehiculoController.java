@@ -101,14 +101,25 @@ public class VehiculoController {
             return "nuevo_vehiculo";
         }
 
+        // Asociar usuario logueado
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String email = auth.getName();
         Usuario usuario = usuarioService.buscarPorEmail(email);
         vehiculo.setUsuario(usuario);
 
-        vehiculoService.guardarVehiculo(vehiculo);
+        try {
+            vehiculoService.guardarVehiculo(vehiculo);
+        } catch (IllegalArgumentException ex) {
+            // p. ej. "La patente ya está registrada para este usuario."
+            errores.add(ex.getMessage());
+            model.addAttribute("errores", errores);
+            model.addAttribute("vehiculo", vehiculo);
+            return "nuevo_vehiculo";
+        }
+
         return "redirect:/vehiculos";
     }
+
 
 
 
@@ -144,13 +155,15 @@ public class VehiculoController {
             return "nuevo_vehiculo";
         }
 
-        Vehiculo vehiculoExistente = vehiculoService.obtenerPorId(id)
-                .orElseThrow(() -> new IllegalArgumentException("Vehículo no encontrado"));
+        try {
+            vehiculoService.actualizarVehiculo(id, vehiculo); // ✅ este es el correcto
+        } catch (IllegalArgumentException ex) {
+            errores.add(ex.getMessage()); // p. ej. patente duplicada en ese usuario
+            model.addAttribute("errores", errores);
+            model.addAttribute("vehiculo", vehiculo);
+            return "nuevo_vehiculo";
+        }
 
-        vehiculo.setUsuario(vehiculoExistente.getUsuario());
-        vehiculo.setId(id);
-
-        vehiculoService.guardarVehiculo(vehiculo);
         return "redirect:/vehiculos";
     }
 
@@ -184,36 +197,72 @@ public class VehiculoController {
         String email = auth.getName();
 
         Usuario usuario = usuarioService.buscarPorEmail(email);
-        if (usuario == null) {
-            return "redirect:/login?error";
+        if (usuario == null) return "redirect:/login?error";
+
+        String q = patente == null ? "" : patente.trim().toUpperCase();
+        boolean esAdmin = "ADMIN".equals(usuario.getRol());
+
+        if (esAdmin) {
+            // Buscar en toda la base (todas las coincidencias)
+            List<Vehiculo> encontrados = vehiculoService.obtenerTodos().stream()
+                    .filter(v -> v.getPatente() != null && v.getPatente().toUpperCase().contains(q))
+                    .sorted(Comparator.comparing((Vehiculo v) -> v.getUsuario().getNombreUsuario() == null ? "" : v.getUsuario().getNombreUsuario())
+                            .thenComparing(Vehiculo::getPatente))
+                    .toList();
+
+            if (encontrados.isEmpty()) {
+                model.addAttribute("mensaje", "No se encontraron vehículos con la patente: " + q);
+                model.addAttribute("usuariosUnicos", Collections.emptyList());
+            } else {
+                // Agrupar por usuario para la vista ADMIN
+                Map<Usuario, List<Vehiculo>> porUsuario = encontrados.stream()
+                        .collect(Collectors.groupingBy(Vehiculo::getUsuario, LinkedHashMap::new, Collectors.toList()));
+
+                List<AdminUsuarioVM> usuariosUnicos = porUsuario.entrySet().stream()
+                        .map(e -> new AdminUsuarioVM(
+                                e.getKey().getId(),
+                                e.getKey().getNombreUsuario(),
+                                e.getKey().getEmail(),
+                                e.getValue()))
+                        .toList();
+
+                model.addAttribute("usuariosUnicos", usuariosUnicos);
+            }
+
+            model.addAttribute("nombreUsuario", usuario.getNombre());
+            return "vehiculos";
         }
 
-        // Normalizar patente
-        String patenteBuscada = patente.trim().toUpperCase();
+        // Usuario común: buscar dentro de sus vehículos (todas las coincidencias)
+        List<Vehiculo> propios = vehiculoService.obtenerPorUsuario(usuario).stream()
+                .filter(v -> v.getPatente() != null && v.getPatente().toUpperCase().contains(q))
+                .sorted(Comparator.comparing(Vehiculo::getPatente))
+                .toList();
 
-        // Filtrar según rol
-        Optional<Vehiculo> vehiculoEncontrado;
-        if ("ADMIN".equals(usuario.getRol())) {
-            vehiculoEncontrado = vehiculoService.obtenerTodos().stream()
-                    .filter(v -> v.getPatente().equalsIgnoreCase(patenteBuscada))
-                    .findFirst();
-        } else {
-            vehiculoEncontrado = vehiculoService.obtenerPorUsuario(usuario).stream()
-                    .filter(v -> v.getPatente().equalsIgnoreCase(patenteBuscada))
-                    .findFirst();
+        if (propios.isEmpty()) {
+            model.addAttribute("mensaje", "No se encontraron vehículos con la patente: " + q);
         }
-
-        if (vehiculoEncontrado.isPresent()) {
-            // Mostrar solo el vehículo encontrado
-            model.addAttribute("vehiculos", List.of(vehiculoEncontrado.get()));
-        } else {
-            model.addAttribute("mensaje", "No se encontró ningún vehículo con la patente: " + patenteBuscada);
-            model.addAttribute("vehiculos", Collections.emptyList());
-        }
-
+        model.addAttribute("vehiculos", propios);
         model.addAttribute("nombreUsuario", usuario.getNombre());
         return "vehiculos";
     }
+
+    /** DTO simple para la vista ADMIN (grupo + vehículos) */
+    public static class AdminUsuarioVM {
+        private final Long id;
+        private final String nombreUsuario;
+        private final String email;
+        private final List<Vehiculo> vehiculos;
+
+        public AdminUsuarioVM(Long id, String nombreUsuario, String email, List<Vehiculo> vehiculos) {
+            this.id = id; this.nombreUsuario = nombreUsuario; this.email = email; this.vehiculos = vehiculos;
+        }
+        public Long getId() { return id; }
+        public String getNombreUsuario() { return nombreUsuario; }
+        public String getEmail() { return email; }
+        public List<Vehiculo> getVehiculos() { return vehiculos; }
+    }
+
 
 
 }

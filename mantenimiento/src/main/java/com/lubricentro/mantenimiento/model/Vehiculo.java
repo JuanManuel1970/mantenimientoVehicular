@@ -6,6 +6,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 import java.time.LocalDate;
 
 @Entity
+@Table(name = "vehiculo",
+        uniqueConstraints = @UniqueConstraint(columnNames = {"usuario_id", "patente"}))
 public class Vehiculo {
 
     @Id
@@ -13,7 +15,10 @@ public class Vehiculo {
     private Long id;
 
     private String nombreCliente;
+
+    @Column(name = "patente", nullable = false, length = 10) // SIN unique=true
     private String patente;
+
     private String marca;
     private String modelo;
     private Integer anio;
@@ -30,14 +35,12 @@ public class Vehiculo {
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate fechaUltimoCambio;
-    @ManyToOne
-    @JoinColumn(name = "usuario_id")
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "usuario_id", nullable = false)
     private Usuario usuario;
 
     private LocalDate fechaProximoCambio;
-
-
-
 
     // === Lógica de mantenimiento ===
     public void calcularProximoMantenimiento() {
@@ -57,24 +60,6 @@ public class Vehiculo {
     }
 
     // === Getters y Setters ===
-
-
-    public Usuario getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
-    }
-
-    public String getMarcaAceite() {
-        return marcaAceite;
-    }
-
-    public void setMarcaAceite(String marcaAceite) {
-        this.marcaAceite = marcaAceite;
-    }
-
     public Long getId() {
         return id;
     }
@@ -129,6 +114,14 @@ public class Vehiculo {
 
     public void setKilometros(Integer kilometros) {
         this.kilometros = kilometros;
+    }
+
+    public String getMarcaAceite() {
+        return marcaAceite;
+    }
+
+    public void setMarcaAceite(String marcaAceite) {
+        this.marcaAceite = marcaAceite;
     }
 
     public Integer getDuracionAceite() {
@@ -193,6 +186,14 @@ public class Vehiculo {
 
     public void setFechaUltimoCambio(LocalDate fechaUltimoCambio) {
         this.fechaUltimoCambio = fechaUltimoCambio;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
     public LocalDate getFechaProximoCambio() {

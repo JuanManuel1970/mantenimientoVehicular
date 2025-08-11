@@ -18,10 +18,12 @@
         </div>
         <div class="card-body">
 
-            <!-- Mensaje de error -->
-            <div th:if="${error}" class="alert alert-danger">
-                <p th:text="${error}"></p>
+            <div th:if="${errores}" class="alert alert-danger">
+                <ul class="mb-0">
+                    <li th:each="e : ${errores}" th:text="${e}"></li>
+                </ul>
             </div>
+
 
             <form th:action="${vehiculo.id} != null ? @{'/vehiculos/' + ${vehiculo.id}} : @{/vehiculos}"
                   th:object="${vehiculo}" method="post">
