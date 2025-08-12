@@ -11,13 +11,15 @@ import java.util.Properties;
 @Configuration
 public class MailConfig {
 
+    // Spring resuelve estas @Value desde variables de entorno (SPRING_MAIL_*)
+    // o desde application.yml. Si no existen, usa el default del ":".
     @Value("${spring.mail.host:smtp.gmail.com}")
     private String host;
 
-    @Value("${spring.mail.port:587}")      // <- default evita parsear null
+    @Value("${spring.mail.port:587}")
     private int port;
 
-    @Value("${spring.mail.username:}")     // vacíos si no hay credenciales
+    @Value("${spring.mail.username:}")
     private String username;
 
     @Value("${spring.mail.password:}")
@@ -29,24 +31,24 @@ public class MailConfig {
     @Value("${spring.mail.properties.mail.smtp.starttls.enable:true}")
     private boolean starttls;
 
-    @Value("${spring.mail.properties.mail.smtp.ssl.trust:}") // si no viene, usamos host
+    @Value("${spring.mail.properties.mail.smtp.ssl.trust:}")
     private String sslTrust;
 
     @Bean
     public JavaMailSender javaMailSender() {
-        JavaMailSenderImpl sender = new JavaMailSenderImpl();
-        sender.setHost(host);
-        sender.setPort(port);
-        sender.setUsername(username);
-        sender.setPassword(password);
+        JavaMailSenderImpl ms = new JavaMailSenderImpl();
+        ms.setHost(host);
+        ms.setPort(port);
+        ms.setUsername(username);
+        ms.setPassword(password);
 
-        Properties p = sender.getJavaMailProperties();
-        p.put("mail.transport.protocol", "smtp");
-        p.put("mail.smtp.auth", String.valueOf(smtpAuth));
-        p.put("mail.smtp.starttls.enable", String.valueOf(starttls));
-        p.put("mail.smtp.ssl.trust", (sslTrust == null || sslTrust.isBlank()) ? host : sslTrust);
-        // p.put("mail.debug", "true"); // útil para diagnosticar
+        Properties props = ms.getJavaMailProperties();
+        props.put("mail.transport.protocol", "smtp");
+        props.put("mail.smtp.auth", String.valueOf(smtpAuth));
+        props.put("mail.smtp.starttls.enable", String.valueOf(starttls));
+        props.put("mail.smtp.ssl.trust", (sslTrust == null || sslTrust.isBlank()) ? host : sslTrust);
+        // props.put("mail.debug", "true"); // si querés ver logs detallados
 
-        return sender;
+        return ms;
     }
 }
